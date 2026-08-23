@@ -11,37 +11,35 @@
 <style>
   :root{
     --paper:#f4ecda; --card:#fffdf4; --ink:#2b2a22; --muted:#7a7361;
-    --green:#2c5236; --green-deep:#1e3b26; --ochre:#c9932f; --ochre-soft:#f0dcae;
-    --rust:#a8502c; --line:#e2d6b8; --navy:#221f38;
+    --green:#2c5236; --green-deep:#1e3b26; --green-tint:#e7ecdf;
+    --ochre:#c9932f; --ochre-soft:#f0dcae; --rust:#a8502c; --rust-tint:#f6e3d4;
+    --line:#e2d6b8;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
   body{margin:0; background:var(--paper); color:var(--ink);
     font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; font-size:15px; line-height:1.45}
-  .wrap{max-width:740px; margin:0 auto; padding:0 14px 120px}
+  .wrap{max-width:780px; margin:0 auto; padding:0 14px 120px}
 
-  /* top bar */
   .top{position:sticky; top:0; z-index:40; background:var(--green-deep); color:#f4ecda;
     box-shadow:0 2px 10px rgba(30,40,30,.25)}
-  .top-in{max-width:740px; margin:0 auto; padding:10px 14px; display:flex; align-items:center; gap:10px}
+  .top-in{max-width:780px; margin:0 auto; padding:10px 14px; display:flex; align-items:center; gap:10px}
   .top h1{font-family:Fraunces,serif; font-weight:900; font-size:22px; margin:0; letter-spacing:.5px}
   .top .sub{font-size:11px; opacity:.75; margin-top:-2px}
   .daynav{margin-left:auto; display:flex; gap:6px}
   .daynav a{color:#f4ecda; text-decoration:none; font-weight:600; font-size:13px;
     padding:5px 10px; border-radius:999px; border:1px solid rgba(244,236,218,.35)}
-  .daynav a:active{background:rgba(244,236,218,.15)}
   .mechip{cursor:pointer; border:none; margin-left:8px; background:var(--ochre); color:#2b2a22;
     font-weight:700; font-size:13px; padding:6px 11px; border-radius:999px; font-family:inherit; white-space:nowrap}
 
-  /* hero */
   .hero{padding:26px 2px 6px}
   .hero h2{font-family:Fraunces,serif; font-weight:800; font-size:26px; margin:0 0 6px}
   .hero p{margin:0; color:var(--muted); font-size:14.5px}
 
-  /* day + block headers */
   .dayhead{display:flex; align-items:baseline; gap:10px; margin:34px 0 4px; scroll-margin-top:70px}
   .dayhead h2{font-family:Fraunces,serif; font-weight:900; font-size:30px; margin:0; color:var(--green-deep)}
   .dayhead span{color:var(--muted); font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase}
+
   .block{margin:18px 0 10px; border-radius:14px; overflow:hidden; position:relative;
     box-shadow:0 3px 14px rgba(60,50,20,.18)}
   .block img{display:block; width:100%; aspect-ratio:16/7; object-fit:cover}
@@ -52,50 +50,73 @@
   .block.noimg{background:var(--green); padding:14px 16px}
   .block.noimg h3{margin:0; color:#f6efdc; font-family:Fraunces,serif; font-weight:800; font-size:20px}
 
-  /* rows */
   .info{display:flex; gap:10px; align-items:baseline; padding:9px 6px; color:var(--muted); font-size:13.5px}
-  .info .t{font-variant-numeric:tabular-nums; font-weight:700; min-width:86px; color:#8d8468}
-  .card{background:var(--card); border:1.5px solid var(--line); border-radius:12px;
-    padding:12px 12px 10px; margin:9px 0; cursor:pointer; position:relative;
+  .info .t{font-variant-numeric:tabular-nums; font-weight:700; min-width:96px; color:#8d8468}
+
+  /* plenary — everyone together, nothing to choose */
+  .plenary{display:flex; gap:12px; align-items:flex-start; background:var(--green-tint);
+    border:1.5px solid #cdd8c3; border-radius:12px; padding:12px 14px; margin:9px 0}
+  .plenary .t{min-width:82px; font-variant-numeric:tabular-nums; font-weight:700; font-size:13.5px; color:var(--green-deep); padding-top:1px}
+  .plenary .t small{display:block; font-weight:500; color:var(--muted)}
+  .plenary h4{margin:0 0 3px; font-size:15px; font-weight:600; line-height:1.3}
+  .plenary .meta{display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:12.5px; color:var(--muted)}
+
+  /* kids band — info only */
+  .kids{background:var(--rust-tint); border:1.5px solid #e8c4a8; border-radius:12px;
+    padding:10px 14px; margin:9px 0}
+  .kids .kh{font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--rust); margin-bottom:4px}
+  .kids .ki{display:flex; gap:10px; align-items:baseline; font-size:13.5px; padding:2px 0}
+  .kids .ki .t{font-variant-numeric:tabular-nums; font-weight:700; min-width:96px; color:#9a5b34}
+
+  /* parallel slot */
+  .slot{border:1.5px solid var(--line); border-radius:14px; background:#faf4e4;
+    padding:10px 10px 12px; margin:12px 0}
+  .slothead{display:flex; align-items:baseline; gap:8px; padding:2px 4px 8px; flex-wrap:wrap}
+  .slothead .st{font-variant-numeric:tabular-nums; font-weight:800; font-size:14px; color:var(--green-deep)}
+  .slothead .pick{font-size:11.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:#7c5a12; background:var(--ochre-soft); border-radius:999px; padding:3px 10px}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .col{min-width:0}
+  .collabel{font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); padding:0 4px 5px; text-align:center}
+  .col1 .collabel{color:#27502f}
+  .col2 .collabel{color:#7c5a12}
+
+  .card{background:var(--card); border:1.5px solid var(--line); border-radius:11px;
+    padding:10px 11px; margin:0 0 8px; cursor:pointer; position:relative;
     transition:border-color .15s, box-shadow .15s; user-select:none}
+  .card:last-child{margin-bottom:0}
   .card:hover{border-color:#cdbd93}
   .card.sel{border-color:var(--green); box-shadow:0 0 0 1.5px var(--green), 0 3px 10px rgba(44,82,54,.14)}
   .card.full:not(.sel){opacity:.6; cursor:not-allowed}
-  .crow{display:flex; gap:11px}
-  .ct{min-width:86px; font-variant-numeric:tabular-nums; font-weight:700; font-size:13.5px; color:var(--green-deep); padding-top:2px}
-  .ct small{display:block; font-weight:500; color:var(--muted)}
-  .cbody{flex:1; min-width:0}
-  .cbody h4{margin:0 0 3px; font-size:15px; font-weight:600; line-height:1.3}
-  .meta{display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:12.5px; color:var(--muted)}
-  .chip{font-size:11px; font-weight:700; letter-spacing:.04em; padding:2.5px 8px; border-radius:999px; white-space:nowrap}
-  .chip.hub{background:#dbe7d7; color:#27502f}
-  .chip.marquee{background:var(--ochre-soft); color:#7c5a12}
-  .chip.both{background:#e6e0f0; color:#4a3f75}
-  .chip.kids{background:#f4d9c8; color:#8d3f1c}
-  .chip.venue{background:#eee6cf; color:#6d6449}
-  .tick{width:26px; height:26px; border-radius:50%; border:2px solid #c9bd9c; flex:none; margin-top:1px;
+  .chead{display:flex; align-items:flex-start; gap:8px}
+  .ctime{font-variant-numeric:tabular-nums; font-weight:700; font-size:12px; color:var(--green-deep)}
+  .tick{width:22px; height:22px; border-radius:50%; border:2px solid #c9bd9c; flex:none; margin-left:auto;
     display:flex; align-items:center; justify-content:center; transition:all .15s; background:#fff}
   .card.sel .tick{background:var(--green); border-color:var(--green)}
-  .card.sel .tick::after{content:"✓"; color:#f4ecda; font-weight:800; font-size:14px}
-  .foot{display:flex; align-items:center; gap:8px; margin-top:8px; padding-left:97px; min-height:20px; flex-wrap:wrap}
-  @media (max-width:520px){ .foot{padding-left:0} .ct{min-width:74px} .info .t{min-width:74px} }
-  .count{border:none; font-family:inherit; background:#efe6cd; color:#6d6449; font-size:12px; font-weight:600;
-    border-radius:999px; padding:3px 9px; cursor:pointer}
+  .card.sel .tick::after{content:"✓"; color:#f4ecda; font-weight:800; font-size:12px}
+  .card h4{margin:4px 0 3px; font-size:13.5px; font-weight:600; line-height:1.35}
+  .card .meta{display:flex; flex-wrap:wrap; gap:5px; align-items:center; font-size:11.5px; color:var(--muted)}
+  .chip{font-size:10px; font-weight:700; letter-spacing:.04em; padding:2px 7px; border-radius:999px; white-space:nowrap}
+  .chip.hub{background:#dbe7d7; color:#27502f}
+  .chip.marquee{background:var(--ochre-soft); color:#7c5a12}
+  .chip.venue{background:#eee6cf; color:#6d6449}
+  .chip.all{background:#cfdcc7; color:#25482c}
+  .foot{display:flex; align-items:center; gap:6px; margin-top:7px; flex-wrap:wrap}
+  .count{border:none; font-family:inherit; background:#efe6cd; color:#6d6449; font-size:11px; font-weight:600;
+    border-radius:999px; padding:2.5px 8px; cursor:pointer}
   .count.some{background:#dbe7d7; color:#27502f}
-  .names{font-size:12px; color:var(--muted); display:none; width:100%}
+  .names{font-size:11.5px; color:var(--muted); display:none; width:100%}
   .names.open{display:block}
-  .clash{font-size:12px; color:var(--rust); font-weight:600}
-  .capnote{font-size:12px; color:var(--rust); font-weight:600}
+  .capnote{font-size:11.5px; color:var(--rust); font-weight:600}
 
-  /* my picks bar */
   .bar{position:fixed; left:0; right:0; bottom:0; z-index:40; background:var(--green-deep); color:#f4ecda;
     transform:translateY(110%); transition:transform .25s}
   .bar.show{transform:none}
-  .bar-in{max-width:740px; margin:0 auto; padding:11px 16px; display:flex; align-items:center; gap:10px; font-size:14px}
+  .bar-in{max-width:780px; margin:0 auto; padding:11px 16px; display:flex; align-items:center; gap:10px; font-size:14px}
   .bar b{font-family:Fraunces,serif; font-size:16px}
-  .bar .warn{color:#f3c88a; font-size:12.5px; margin-left:auto; text-align:right}
+  .bar .hint{opacity:.75; font-size:12.5px}
 
-  /* modal */
   .veil{position:fixed; inset:0; z-index:60; background:rgba(30,32,24,.55); display:none;
     align-items:center; justify-content:center; padding:20px}
   .veil.show{display:flex}
@@ -110,7 +131,6 @@
     border:none; border-radius:10px; background:var(--green); color:#f4ecda; cursor:pointer}
   .modal button:disabled{opacity:.5}
 
-  /* organiser */
   .org{background:#fbf7ea; border:1.5px dashed var(--ochre); border-radius:14px; padding:16px; margin:20px 0}
   .org h3{font-family:Fraunces,serif; margin:0 0 4px; font-size:19px}
   .org h4{margin:14px 0 4px; font-size:13px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted)}
@@ -137,65 +157,29 @@
 
 <div class="wrap">
   <div class="hero">
-    <h2>Pick your sessions</h2>
-    <p>Tap anything you plan to go to — it saves instantly and helps us size rooms, chairs and yoghurt.
-    You can change your mind any time; just tap again to un-pick.</p>
+    <h2>The weekend, and your picks</h2>
+    <p>Most of the weekend we're all together — nothing to do there. But where two sessions run at the
+    same time, tap the one you'll go to, so we can size the rooms. It saves instantly; tap again to change your mind.</p>
   </div>
   <div id="orgbox"></div>
   <div id="app"></div>
 </div>
 
 <div class="bar" id="bar"><div class="bar-in">
-  <b id="barcount">0 picked</b><span id="barhint" style="opacity:.75; font-size:12.5px">— your picks are saved</span>
-  <span class="warn" id="barwarn"></span>
+  <b id="barcount"></b><span class="hint" id="barhint"></span>
 </div></div>
 
 <div class="veil" id="veil"><div class="modal">
   <h3>Who's this?</h3>
-  <p>Your first name (and initial if there'll be two of you) — so we know who's coming to what. One device per person is easiest; parents can pick for kids by adding e.g. “Ted (kid)”.</p>
+  <p>Your first name (and initial if there'll be two of you) — so we know who's coming to what.
+  Parents can pick for kids' grown-up choices from the same device by switching the name (top right).</p>
   <input id="nameinput" maxlength="40" placeholder="e.g. Jan" autocomplete="off">
   <button id="namesave" disabled>Save my name</button>
 </div></div>
 <div class="toast" id="toast"></div>
 
 <script>
-/*SESSIONS_START*/
-const SESSIONS = [
- {"id":"fri-arrive","day":"fri","start":"16:00","end":"","title":"Arrive & set up — tents go up at Hop Pickers Site","sel":false},
- {"id":"fri-pizza","day":"fri","start":"17:00","end":"","title":"Pizzas at the Hub","sel":false},
- {"id":"fri-lucy","day":"fri","block":"Orientation","img":"star","start":"22:00","end":"22:30","title":"Lucy: A Tour of the Universe","who":"Lucy","where":"venue","venue":"Next to the tents","sel":true},
- {"id":"sat-julian","day":"sat","block":"How we’ve survived so far","img":"hands","start":"09:00","end":"09:30","title":"Why Do You Still Go To Those Meetings? A (very) personal account of 12-step recovery","who":"Julian","where":"hub","sel":true},
- {"id":"sat-kids-hunt","day":"sat","start":"09:00","end":"11:30","title":"Treasure hunt","where":"kids","sel":true},
- {"id":"sat-jane","day":"sat","start":"09:30","end":"10:00","title":"The Changing Face of Childbirth: 10,000 Years of Human Experience","who":"Jane","where":"hub","sel":true},
- {"id":"sat-harry","day":"sat","start":"10:00","end":"11:00","title":"How (and why) to make a video game","who":"Harry","where":"hub","sel":true},
- {"id":"sat-hannah","day":"sat","start":"10:00","end":"10:30","title":"Life on the Edge of the World","who":"Hannah","where":"marquee","sel":true},
- {"id":"sat-joel","day":"sat","start":"10:30","end":"11:00","title":"A Brief History of the Hell’s Angels: outlaws, motorcycles and global domination","who":"Joel","where":"marquee","sel":true},
- {"id":"sat-mario","day":"sat","start":"11:00","end":"11:30","title":"Mario’s talk (title under wraps)","who":"Mario","where":"hub","sel":true},
- {"id":"sat-brett","day":"sat","start":"11:00","end":"11:30","title":"Mountains of the Mind","who":"Brett","where":"marquee","sel":true},
- {"id":"sat-buffer","day":"sat","start":"11:30","end":"12:00","title":"Buffer time","sel":false},
- {"id":"sat-lunch","day":"sat","start":"12:00","end":"13:30","title":"Communal lunch at the Hub","sel":false},
- {"id":"sat-tim","day":"sat","block":"Survival skills","img":"bushcraft","start":"13:30","end":"14:30","title":"Rhyming storytelling workshop — not a poetry class. No berets-and-ennui. Just joy.","who":"Tim","where":"hub","sel":true},
- {"id":"sat-ben","day":"sat","start":"13:30","end":"14:30","title":"Ben’s Listening Circle — bring a song tied to someone who matters","who":"Ben","where":"marquee","sel":true,"cap":8},
- {"id":"sat-kids-army","day":"sat","start":"13:30","end":"16:30","title":"Kids army assemble","where":"kids","sel":true},
- {"id":"sat-babtiste","day":"sat","start":"14:30","end":"16:00","title":"Beginner watercolour workshop","who":"Babtiste","where":"hub","sel":true},
- {"id":"sat-yasmin","day":"sat","start":"14:30","end":"16:00","title":"The Breath of the Compassionate — an introduction to Sacred Geometry (drawing workshop)","who":"Yasmin","where":"marquee","sel":true},
- {"id":"sat-zoe","day":"sat","start":"16:00","end":"16:30","title":"Island nation life skills: water safety","who":"Zoe","where":"venue","venue":"By the water","sel":true},
- {"id":"sat-val","day":"sat","start":"16:00","end":"16:30","title":"Practical yoghurt-making workshop","who":"Val","where":"marquee","sel":true},
- {"id":"sat-bbq","day":"sat","start":"16:30","end":"","title":"Chill time, BBQ and campfires","sel":false},
- {"id":"sun-tom","day":"sun","block":"A Rough Guide to the Apocalypse","img":"apocalypse","start":"09:00","end":"09:30","title":"“How to prevent the end of the world”","who":"Tom","where":"hub","sel":true},
- {"id":"sun-kids-march","day":"sun","start":"09:00","end":"11:30","title":"March to the castle","where":"kids","sel":true},
- {"id":"sun-anas","day":"sun","start":"09:30","end":"10:00","title":"Medicine for the Apocalypse","who":"Anas","where":"hub","sel":true},
- {"id":"sun-jan","day":"sun","start":"10:00","end":"10:30","title":"Four Pillars — the materials that make the modern world","who":"Jan","where":"hub","sel":true},
- {"id":"sun-sam","day":"sun","start":"10:00","end":"10:30","title":"The Secret of Our Success","who":"Sam","where":"marquee","sel":true},
- {"id":"sun-lottie","day":"sun","start":"10:30","end":"11:30","title":"Why trying to get famous is actually a great idea — how LinkedIn changed my life and why being incredibly cringe is a great plan","who":"Lottie","where":"hub","sel":true},
- {"id":"sun-ush","day":"sun","start":"10:30","end":"11:00","title":"From AI to Z: how the modern world is impacting our mental health","who":"Ush","where":"marquee","sel":true},
- {"id":"sun-grainne","day":"sun","start":"11:00","end":"11:30","title":"Sensory regulation — strategies that can help us feel more alert","who":"Gráinne","where":"marquee","sel":true},
- {"id":"sun-walk","day":"sun","start":"11:30","end":"12:00","title":"Walk to the pub","sel":false},
- {"id":"sun-lunch","day":"sun","start":"12:00","end":"14:00","title":"Communal lunch at the Castle Inn (sit down at 12:00)","sel":false},
- {"id":"sun-olympics","day":"sun","block":"Survival of the fittest","img":"athletics","start":"14:00","end":"16:00","title":"Family Olympics","who":"Hannah & Jan","where":"venue","venue":"Field next to the pub","sel":true},
- {"id":"sun-bbq","day":"sun","start":"16:00","end":"","title":"Chill time, BBQ and campfires","sel":false}
-];
-/*SESSIONS_END*/
+/* ---------- schedule data ---------- */
 const IMGS = {
   star:"https://cdn.gamma.app/ussj6po8pvbgd6h/design-anything/DJtbpflbOWYxnCgXwo1NC/9AWWFwKgyzW6EJJvDEQJJ.jpg",
   hands:"https://cdn.gamma.app/ussj6po8pvbgd6h/design-anything/OUwPyTVZFuqJVxDoMzie2/_EHN5G3IKmxD0q8yneQzy.jpg",
@@ -204,97 +188,190 @@ const IMGS = {
   athletics:"https://cdn.gamma.app/ussj6po8pvbgd6h/design-anything/A1xB7dhNr91W31uH9C6cQ/qER0jUG0RX2E6zakhMXwm.jpg"
 };
 const DAYS = {fri:"Friday", sat:"Saturday", sun:"Sunday"};
-const CHIP = {hub:["hub","The Hub · upstairs (screen)"], marquee:["marquee","Marquee by the tents"], kids:["kids","Kids stream"]};
+
+// where: 'hub' | 'marquee' | custom venue string via venue
+const ROWS = [
+ {type:'day', id:'fri', label:'Friday', sub:'from 4pm'},
+ {type:'info', time:'16:00 onwards', text:'Arrive & set up — tents go up at Hop Pickers Site'},
+ {type:'info', time:'17:00 onwards', text:'Pizzas at the Hub'},
+ {type:'block', title:'Orientation', img:'star'},
+ {type:'plenary', start:'22:00', end:'22:30', title:'Lucy: A Tour of the Universe', who:'Lucy', venue:'Next to the tents'},
+
+ {type:'day', id:'sat', label:'Saturday', sub:'from 9am'},
+ {type:'block', title:'How we’ve survived so far', img:'hands'},
+ {type:'kids', items:[{time:'09:00–11:30', text:'Treasure hunt'}]},
+ {type:'plenary', start:'09:00', end:'09:30', title:'Why Do You Still Go To Those Meetings? A (very) personal account of 12-step recovery', who:'Julian'},
+ {type:'plenary', start:'09:30', end:'10:00', title:'The Changing Face of Childbirth: 10,000 Years of Human Experience', who:'Jane'},
+ {type:'slot', slot:'sat-1000', start:'10:00', end:'11:00', cols:[
+   {label:'The Hub · upstairs', items:[
+     {id:'sat-harry', start:'10:00', end:'11:00', title:'How (and why) to make a video game', who:'Harry', where:'hub'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sat-hannah', start:'10:00', end:'10:30', title:'Life on the Edge of the World', who:'Hannah', where:'marquee'},
+     {id:'sat-joel', start:'10:30', end:'11:00', title:'A Brief History of the Hell’s Angels: outlaws, motorcycles and global domination', who:'Joel', where:'marquee'}]}
+ ]},
+ {type:'slot', slot:'sat-1100', start:'11:00', end:'11:30', cols:[
+   {label:'The Hub · upstairs', items:[
+     {id:'sat-mario', start:'11:00', end:'11:30', title:'Mario’s talk (title under wraps)', who:'Mario', where:'hub'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sat-brett', start:'11:00', end:'11:30', title:'Mountains of the Mind', who:'Brett', where:'marquee'}]}
+ ]},
+ {type:'info', time:'11:30–12:00', text:'Buffer time'},
+ {type:'info', time:'12:00–13:30', text:'Communal lunch at the Hub'},
+ {type:'block', title:'Survival skills', img:'bushcraft'},
+ {type:'kids', items:[{time:'13:30–16:30', text:'Kids army assemble'}]},
+ {type:'slot', slot:'sat-1330', start:'13:30', end:'14:30', cols:[
+   {label:'The Hub · upstairs', items:[
+     {id:'sat-tim', start:'13:30', end:'14:30', title:'Rhyming storytelling workshop — not a poetry class. No berets-and-ennui. Just joy.', who:'Tim', where:'hub'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sat-ben', start:'13:30', end:'14:30', title:'Ben’s Listening Circle — bring a song tied to someone who matters', who:'Ben', where:'marquee', cap:8}]}
+ ]},
+ {type:'slot', slot:'sat-1430', start:'14:30', end:'16:00', cols:[
+   {label:'The Hub · upstairs', items:[
+     {id:'sat-babtiste', start:'14:30', end:'16:00', title:'Beginner watercolour workshop', who:'Babtiste', where:'hub'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sat-yasmin', start:'14:30', end:'16:00', title:'The Breath of the Compassionate — an introduction to Sacred Geometry (drawing workshop)', who:'Yasmin', where:'marquee'}]}
+ ]},
+ {type:'slot', slot:'sat-1600', start:'16:00', end:'16:30', cols:[
+   {label:'By the water', items:[
+     {id:'sat-zoe', start:'16:00', end:'16:30', title:'Island nation life skills: water safety', who:'Zoe', venue:'By the water'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sat-val', start:'16:00', end:'16:30', title:'Practical yoghurt-making workshop', who:'Val', where:'marquee'}]}
+ ]},
+ {type:'info', time:'16:30 onwards', text:'Chill time, BBQ and campfires'},
+
+ {type:'day', id:'sun', label:'Sunday', sub:'from 9am'},
+ {type:'block', title:'A Rough Guide to the Apocalypse', img:'apocalypse'},
+ {type:'kids', items:[{time:'09:00–11:30', text:'March to the castle'}]},
+ {type:'plenary', start:'09:00', end:'09:30', title:'“How to prevent the end of the world”', who:'Tom'},
+ {type:'plenary', start:'09:30', end:'10:00', title:'Medicine for the Apocalypse', who:'Anas'},
+ {type:'slot', slot:'sun-1000', start:'10:00', end:'10:30', cols:[
+   {label:'The Hub · upstairs', items:[
+     {id:'sun-jan', start:'10:00', end:'10:30', title:'Four Pillars — the materials that make the modern world', who:'Jan', where:'hub'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sun-sam', start:'10:00', end:'10:30', title:'The Secret of Our Success', who:'Sam', where:'marquee'}]}
+ ]},
+ {type:'slot', slot:'sun-1030', start:'10:30', end:'11:30', cols:[
+   {label:'The Hub · upstairs', items:[
+     {id:'sun-lottie', start:'10:30', end:'11:30', title:'Why trying to get famous is actually a great idea — how LinkedIn changed my life and why being incredibly cringe is a great plan', who:'Lottie', where:'hub'}]},
+   {label:'Marquee by the tents', items:[
+     {id:'sun-ush', start:'10:30', end:'11:00', title:'From AI to Z: how the modern world is impacting our mental health', who:'Ush', where:'marquee'},
+     {id:'sun-grainne', start:'11:00', end:'11:30', title:'Sensory regulation — strategies that can help us feel more alert', who:'Gráinne', where:'marquee'}]}
+ ]},
+ {type:'info', time:'11:30–12:00', text:'Walk to the pub'},
+ {type:'info', time:'12:00–14:00', text:'Communal lunch at the Castle Inn (sit down at 12:00)'},
+ {type:'block', title:'Survival of the fittest', img:'athletics'},
+ {type:'plenary', start:'14:00', end:'16:00', title:'Family Olympics', who:'Hannah & Jan', venue:'Field next to the pub'},
+ {type:'info', time:'16:00 onwards', text:'Chill time, BBQ and campfires'}
+];
+
+// flatten selectable sessions with their slot + day
+const SESS = {};
+let curDayTmp = '';
+for (const r of ROWS){
+  if (r.type === 'day') curDayTmp = r.id;
+  if (r.type === 'slot'){
+    for (const c of r.cols) for (const it of c.items){
+      SESS[it.id] = { ...it, slot: r.slot, day: curDayTmp };
+    }
+  }
+}
+const SLOT_COUNT = ROWS.filter(r => r.type === 'slot').length;
+
 const BASE = 'https://urxqcjkevhiptqrrygtt.supabase.co/functions/v1/wow26';
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 let myName = null;
 try { myName = localStorage.getItem('wow26_name'); } catch(e){}
-let rows = [];            // [{name, session_id}]
+let rows = [];
 const openNames = new Set();
 
 function selections(id){ return rows.filter(r => r.session_id === id); }
 function mine(){ return myName ? new Set(rows.filter(r => r.name.trim().toLowerCase() === myName.trim().toLowerCase()).map(r => r.session_id)) : new Set(); }
 function mins(t){ const [h,m] = t.split(':').map(Number); return h*60+m; }
-function overlaps(a,b){
-  if (a.day !== b.day || !a.end || !b.end) return false;
-  return mins(a.start) < mins(b.end) && mins(b.start) < mins(a.end);
+function overlaps(a,b){ return mins(a.start) < mins(b.end) && mins(b.start) < mins(a.end); }
+
+/* ---------- rendering ---------- */
+function cardHtml(s, my){
+  const going = selections(s.id);
+  const isMine = my.has(s.id);
+  const full = s.cap && going.length >= s.cap && !isMine;
+  let chips = '';
+  if (s.where === 'hub') chips += '<span class="chip hub">Hub</span>';
+  if (s.where === 'marquee') chips += '<span class="chip marquee">Marquee</span>';
+  if (s.venue) chips += `<span class="chip venue">${esc(s.venue)}</span>`;
+  if (s.cap) chips += `<span class="chip venue">max ${s.cap}</span>`;
+  const namesTxt = going.length ? going.map(g => esc(g.name)).join(', ') : '';
+  return `<div class="card${isMine?' sel':''}${full?' full':''}" data-id="${s.id}" role="button" tabindex="0" aria-pressed="${isMine}">
+    <div class="chead"><span class="ctime">${s.start}–${s.end}</span><div class="tick"></div></div>
+    <h4>${esc(s.title)}</h4>
+    <div class="meta">${s.who ? esc(s.who) : ''}${chips ? ' ' + chips : ''}</div>
+    <div class="foot">
+      <button class="count${going.length?' some':''}" data-names="${s.id}">${going.length ? going.length + ' going' : 'no one yet'}</button>
+      ${full ? '<span class="capnote">Full up, sorry!</span>' : ''}
+      <span class="names${openNames.has(s.id)?' open':''}" id="names-${s.id}">${namesTxt}</span>
+    </div>
+  </div>`;
 }
 
 function render(){
   const my = mine();
   let html = '';
-  let curDay = '';
-  for (const s of SESSIONS){
-    if (s.day !== curDay){
-      curDay = s.day;
-      html += `<div class="dayhead" id="${curDay}"><h2>${DAYS[curDay]}</h2><span>${curDay==='fri'?'from 4pm':'from 9am'}</span></div>`;
+  for (const r of ROWS){
+    if (r.type === 'day'){
+      html += `<div class="dayhead" id="${r.id}"><h2>${r.label}</h2><span>${r.sub}</span></div>`;
+    } else if (r.type === 'block'){
+      html += `<div class="block"><img src="${IMGS[r.img]}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.parentNode.querySelector('.bt').style.position='static';this.remove()"><div class="bt"><h3>${esc(r.title)}</h3></div></div>`;
+    } else if (r.type === 'info'){
+      html += `<div class="info"><span class="t">${r.time}</span><span>${esc(r.text)}</span></div>`;
+    } else if (r.type === 'kids'){
+      html += `<div class="kids"><div class="kh">Kids stream — runs alongside, no signing up needed</div>` +
+        r.items.map(k => `<div class="ki"><span class="t">${k.time}</span><span>${esc(k.text)}</span></div>`).join('') + `</div>`;
+    } else if (r.type === 'plenary'){
+      let chips = '<span class="chip all">Everyone together</span>';
+      if (r.venue) chips += `<span class="chip venue">${esc(r.venue)}</span>`;
+      html += `<div class="plenary"><div class="t">${r.start}<small>to ${r.end}</small></div>
+        <div><h4>${esc(r.title)}</h4><div class="meta">${r.who ? esc(r.who) + ' ' : ''}${chips}</div></div></div>`;
+    } else if (r.type === 'slot'){
+      const picked = r.cols.some(c => c.items.some(it => my.has(it.id)));
+      html += `<div class="slot"><div class="slothead"><span class="st">${r.start}–${r.end}</span>
+        <span class="pick">${picked ? '✓ picked' : 'Two at once — pick one'}</span></div>
+        <div class="cols">` +
+        r.cols.map((c, ci) => `<div class="col col${ci+1}"><div class="collabel">${esc(c.label)}</div>` +
+          c.items.map(it => cardHtml(it, my)).join('') + `</div>`).join('') +
+        `</div></div>`;
     }
-    if (s.block){
-      html += `<div class="block"><img src="${IMGS[s.img]}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove();this.parentNode.insertAdjacentHTML('afterbegin','<h3>${esc(s.block)}</h3>')"><div class="bt"><h3>${esc(s.block)}</h3></div></div>`;
-    }
-    const time = s.start + (s.end ? '–' + s.end : ' onwards');
-    if (!s.sel){
-      html += `<div class="info"><span class="t">${time}</span><span>${esc(s.title)}</span></div>`;
-      continue;
-    }
-    const going = selections(s.id);
-    const isMine = my.has(s.id);
-    const full = s.cap && going.length >= s.cap && !isMine;
-    const clash = isMine ? SESSIONS.find(o => o.sel && o.id !== s.id && my.has(o.id) && overlaps(s,o)) : null;
-    let chips = '';
-    if (s.where && CHIP[s.where]) chips += `<span class="chip ${CHIP[s.where][0]}">${CHIP[s.where][1]}</span>`;
-    if (s.where === 'venue') chips += `<span class="chip venue">${esc(s.venue)}</span>`;
-    if (s.cap) chips += `<span class="chip venue">max ${s.cap}</span>`;
-    const namesTxt = going.length ? going.map(g => esc(g.name)).join(', ') : '';
-    html += `<div class="card${isMine?' sel':''}${full?' full':''}" data-id="${s.id}" role="button" tabindex="0" aria-pressed="${isMine}">
-      <div class="crow">
-        <div class="ct">${s.start}<small>${s.end ? 'to '+s.end : 'onwards'}</small></div>
-        <div class="cbody">
-          <h4>${esc(s.title)}</h4>
-          <div class="meta">${s.who ? esc(s.who)+' · ' : ''}${chips}</div>
-        </div>
-        <div class="tick"></div>
-      </div>
-      <div class="foot">
-        <button class="count${going.length?' some':''}" data-names="${s.id}">${going.length ? going.length + ' going' : 'no one yet'}</button>
-        ${full ? '<span class="capnote">Full — tap someone to swap nicely</span>' : ''}
-        ${clash ? `<span class="clash">Clashes with “${esc(clash.title.slice(0,40))}${clash.title.length>40?'…':''}”</span>` : ''}
-        <span class="names${openNames.has(s.id)?' open':''}" id="names-${s.id}">${namesTxt}</span>
-      </div>
-    </div>`;
   }
   $('#app').innerHTML = html;
-  const n = my.size;
-  $('#bar').classList.toggle('show', n > 0);
-  $('#barcount').textContent = n + ' picked';
-  const clashes = SESSIONS.filter(s => s.sel && my.has(s.id) && SESSIONS.some(o => o.sel && o.id !== s.id && my.has(o.id) && overlaps(s,o)));
-  $('#barwarn').textContent = clashes.length ? '⚠ you’re double-booked in ' + (clashes.length/2|0 || 1) + ' slot' + (clashes.length > 2 ? 's' : '') : '';
+
+  const pickedSlots = ROWS.filter(r => r.type === 'slot' && r.cols.some(c => c.items.some(it => my.has(it.id)))).length;
+  $('#bar').classList.toggle('show', my.size > 0);
+  $('#barcount').textContent = `${pickedSlots} of ${SLOT_COUNT} choices made`;
+  $('#barhint').textContent = pickedSlots < SLOT_COUNT ? '— saved as you go' : '— all done, see you there!';
   $('#mechip').textContent = myName ? myName : 'set name';
   renderOrg();
 }
 
 function renderOrg(){
   if (location.hash !== '#organiser'){ $('#orgbox').innerHTML=''; return; }
-  const sel = SESSIONS.filter(s => s.sel);
+  const sel = Object.values(SESS);
   const people = [...new Set(rows.map(r => r.name.trim()))].sort((a,b)=>a.localeCompare(b));
   let t1 = sel.map(s => {
     const g = selections(s.id);
     return `<tr><td>${DAYS[s.day]} ${s.start}</td><td>${esc(s.title.slice(0,60))}</td><td class="num"><b>${g.length}</b></td><td>${g.map(x=>esc(x.name)).join(', ')}</td></tr>`;
   }).join('');
   let t2 = people.map(p => {
-    const picks = rows.filter(r => r.name.trim() === p).map(r => { const s = SESSIONS.find(x=>x.id===r.session_id); return s ? s.title.slice(0,30) : r.session_id; });
+    const picks = rows.filter(r => r.name.trim() === p).map(r => { const s = SESS[r.session_id]; return s ? s.title.slice(0,30) : r.session_id; });
     return `<tr><td><b>${esc(p)}</b> (${picks.length})</td><td>${picks.map(esc).join(' · ')}</td></tr>`;
   }).join('');
   $('#orgbox').innerHTML = `<div class="org"><h3>Organiser view</h3>
-    <p style="margin:0;color:var(--muted);font-size:13px">${people.length} people have made ${rows.length} picks. Live — updates as they come in.</p>
+    <p style="margin:0;color:var(--muted);font-size:13px">${people.length} people have made ${rows.length} picks across ${SLOT_COUNT} parallel slots. Live — updates as they come in.</p>
     <h4>By session</h4><table><tr><th>When</th><th>Session</th><th class="num">#</th><th>Who</th></tr>${t1}</table>
     <h4>By person</h4><table>${t2}</table>
     <button id="csv">Copy as CSV</button></div>`;
   $('#csv').onclick = () => {
     const lines = [['name','day','time','session'].join(',')];
-    for (const r of rows){ const s = SESSIONS.find(x=>x.id===r.session_id) || {};
+    for (const r of rows){ const s = SESS[r.session_id] || {};
       lines.push([r.name, DAYS[s.day]||'', s.start||'', (s.title||r.session_id)].map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')); }
     navigator.clipboard.writeText(lines.join('\n')).then(()=>toast('Copied!'));
   };
@@ -305,6 +382,7 @@ function toast(msg){
   clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('show'), 2200);
 }
 
+/* ---------- data ---------- */
 async function refresh(){
   try{
     const r = await fetch(BASE + '/api/state');
@@ -312,23 +390,40 @@ async function refresh(){
   }catch(e){}
 }
 
+async function apiToggle(id, selected){
+  return fetch(BASE + '/api/toggle', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({name: myName, session_id: id, selected})});
+}
+
 async function toggle(id){
   if (!myName){ showModal(); return; }
-  const s = SESSIONS.find(x=>x.id===id);
+  const s = SESS[id];
   const my = mine();
   const selected = !my.has(id);
   if (selected && s.cap && selections(id).length >= s.cap){ toast('That one’s full, sorry!'); return; }
+
+  // picking one side of a slot un-picks anything of mine that overlaps it in the same slot
+  const displaced = selected
+    ? Object.values(SESS).filter(o => o.slot === s.slot && o.id !== id && my.has(o.id) && overlaps(s, o)).map(o => o.id)
+    : [];
+
   // optimistic
-  if (selected) rows.push({name: myName, session_id: id});
-  else rows = rows.filter(r => !(r.session_id === id && r.name.trim().toLowerCase() === myName.trim().toLowerCase()));
+  const meKey = myName.trim().toLowerCase();
+  if (selected){
+    rows = rows.filter(r => !(displaced.includes(r.session_id) && r.name.trim().toLowerCase() === meKey));
+    rows.push({name: myName, session_id: id});
+  } else {
+    rows = rows.filter(r => !(r.session_id === id && r.name.trim().toLowerCase() === meKey));
+  }
   render();
+
   try{
-    const r = await fetch(BASE + '/api/toggle', {method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({name: myName, session_id: id, selected})});
+    for (const d of displaced) await apiToggle(d, false);
+    const r = await apiToggle(id, selected);
     if (r.status === 409){ toast('Just filled up — sorry!'); }
     else if (!r.ok){ toast('Hmm, that didn’t save — try again'); }
     await refresh();
-  }catch(e){ toast('No signal — will need another tap when you’re back online'); }
+  }catch(e){ toast('No signal — tap again when you’re back online'); }
 }
 
 function showModal(){
@@ -338,6 +433,7 @@ function showModal(){
   setTimeout(()=>$('#nameinput').focus(), 50);
 }
 
+/* ---------- events ---------- */
 document.addEventListener('click', e => {
   const nb = e.target.closest('[data-names]');
   if (nb){
