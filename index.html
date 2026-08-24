@@ -54,7 +54,7 @@
   .info .t{font-variant-numeric:tabular-nums; font-weight:700; min-width:96px; color:#8d8468}
 
   /* plenary — everyone together, nothing to choose */
-  .plenary{display:flex; gap:12px; align-items:flex-start; background:var(--green-tint);
+  .plenary{display:flex; gap:12px; align-items:center; background:var(--green-tint);
     border:1.5px solid #cdd8c3; border-radius:12px; padding:12px 14px; margin:9px 0}
   .plenary .t{min-width:82px; font-variant-numeric:tabular-nums; font-weight:700; font-size:13.5px; color:var(--green-deep); padding-top:1px}
   .plenary .t small{display:block; font-weight:500; color:var(--muted)}
@@ -76,16 +76,17 @@
   .slothead .pick{font-size:11.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
     color:#7c5a12; background:var(--ochre-soft); border-radius:999px; padding:3px 10px}
   .cols{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-  .col{min-width:0}
+  .col{min-width:0; display:flex; flex-direction:column}
+  .colcards{display:flex; flex-direction:column; gap:8px; flex:1}
   .collabel{font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
     color:var(--muted); padding:0 4px 5px; text-align:center}
   .col1 .collabel{color:#27502f}
   .col2 .collabel{color:#7c5a12}
 
   .card{background:var(--card); border:1.5px solid var(--line); border-radius:11px;
-    padding:10px 11px; margin:0 0 8px; cursor:pointer; position:relative;
+    padding:10px 11px; margin:0; cursor:pointer; position:relative;
+    display:flex; flex-direction:column;
     transition:border-color .15s, box-shadow .15s; user-select:none}
-  .card:last-child{margin-bottom:0}
   .card:hover{border-color:#cdbd93}
   .card.sel{border-color:var(--green); box-shadow:0 0 0 1.5px var(--green), 0 3px 10px rgba(44,82,54,.14)}
   .card.full:not(.sel){opacity:.6; cursor:not-allowed}
@@ -102,7 +103,7 @@
   .chip.marquee{background:var(--ochre-soft); color:#7c5a12}
   .chip.venue{background:#eee6cf; color:#6d6449}
   .chip.all{background:#cfdcc7; color:#25482c}
-  .foot{display:flex; align-items:center; gap:6px; margin-top:7px; flex-wrap:wrap}
+  .foot{display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:7px; flex-wrap:wrap}
   .count{border:none; font-family:inherit; background:#efe6cd; color:#6d6449; font-size:11px; font-weight:600;
     border-radius:999px; padding:2.5px 8px; cursor:pointer}
   .count.some{background:#dbe7d7; color:#27502f}
@@ -211,7 +212,7 @@ const ROWS = [
  ]},
  {type:'slot', slot:'sat-1100', start:'11:00', end:'11:30', cols:[
    {label:'The Hub · upstairs', items:[
-     {id:'sat-mario', start:'11:00', end:'11:30', title:'Fun facts about the world you probably didnt know (Mario)', who:'Mario', where:'hub'}]},
+     {id:'sat-mario', start:'11:00', end:'11:30', title:'Fun facts about the world you probably didn’t know', who:'Mario', where:'hub'}]},
    {label:'Marquee by the tents', items:[
      {id:'sat-brett', start:'11:00', end:'11:30', title:'Mountains of the Mind', who:'Brett', where:'marquee'}]}
  ]},
@@ -292,23 +293,31 @@ function mins(t){ const [h,m] = t.split(':').map(Number); return h*60+m; }
 function overlaps(a,b){ return mins(a.start) < mins(b.end) && mins(b.start) < mins(a.end); }
 
 /* ---------- rendering ---------- */
+const PPM = 4;            // pixels per minute of session length
+const MAXH = 320;         // height cap so very long items stay sane
+const DEFAULT_CAP = 15;
+function boxH(s){ return Math.min((mins(s.end) - mins(s.start)) * PPM, MAXH); }
+
 function cardHtml(s, my){
   const going = selections(s.id);
   const isMine = my.has(s.id);
-  const full = s.cap && going.length >= s.cap && !isMine;
+  const cap = s.cap || DEFAULT_CAP;
+  const spotsLeft = cap - going.length;
+  const full = spotsLeft <= 0 && !isMine;
+  const dur = mins(s.end) - mins(s.start);
   let chips = '';
   if (s.where === 'hub') chips += '<span class="chip hub">Hub</span>';
   if (s.where === 'marquee') chips += '<span class="chip marquee">Marquee</span>';
   if (s.venue) chips += `<span class="chip venue">${esc(s.venue)}</span>`;
   if (s.cap) chips += `<span class="chip venue">max ${s.cap}</span>`;
   const namesTxt = going.length ? going.map(g => esc(g.name)).join(', ') : '';
-  return `<div class="card${isMine?' sel':''}${full?' full':''}" data-id="${s.id}" role="button" tabindex="0" aria-pressed="${isMine}">
-    <div class="chead"><span class="ctime">${s.start}–${s.end}</span><div class="tick"></div></div>
+  return `<div class="card${isMine?' sel':''}${full?' full':''}" data-id="${s.id}" role="button" tabindex="0" aria-pressed="${isMine}" style="flex:${dur} 1 auto; min-height:${boxH(s)}px">
+    <div class="chead"><span class="ctime">${s.start}–${s.end} · ${dur} min</span><div class="tick"></div></div>
     <h4>${esc(s.title)}</h4>
     <div class="meta">${s.who ? esc(s.who) : ''}${chips ? ' ' + chips : ''}</div>
     <div class="foot">
       <button class="count${going.length?' some':''}" data-names="${s.id}">${going.length ? going.length + ' going' : 'no one yet'}</button>
-      ${full ? '<span class="capnote">Full up, sorry!</span>' : ''}
+      ${full ? '<span class="capnote">Full up, sorry!</span>' : (spotsLeft <= 3 ? `<span class="capnote">${spotsLeft} spot${spotsLeft===1?'':'s'} left</span>` : '')}
       <span class="names${openNames.has(s.id)?' open':''}" id="names-${s.id}">${namesTxt}</span>
     </div>
   </div>`;
@@ -330,15 +339,15 @@ function render(){
     } else if (r.type === 'plenary'){
       let chips = '<span class="chip all">Everyone together</span>';
       if (r.venue) chips += `<span class="chip venue">${esc(r.venue)}</span>`;
-      html += `<div class="plenary"><div class="t">${r.start}<small>to ${r.end}</small></div>
+      html += `<div class="plenary" style="min-height:${boxH(r)}px"><div class="t">${r.start}<small>to ${r.end}</small></div>
         <div><h4>${esc(r.title)}</h4><div class="meta">${r.who ? esc(r.who) + ' ' : ''}${chips}</div></div></div>`;
     } else if (r.type === 'slot'){
       const picked = r.cols.some(c => c.items.some(it => my.has(it.id)));
       html += `<div class="slot"><div class="slothead"><span class="st">${r.start}–${r.end}</span>
         <span class="pick">${picked ? '✓ picked' : 'Two at once — pick one'}</span></div>
         <div class="cols">` +
-        r.cols.map((c, ci) => `<div class="col col${ci+1}"><div class="collabel">${esc(c.label)}</div>` +
-          c.items.map(it => cardHtml(it, my)).join('') + `</div>`).join('') +
+        r.cols.map((c, ci) => `<div class="col col${ci+1}"><div class="collabel">${esc(c.label)}</div><div class="colcards">` +
+          c.items.map(it => cardHtml(it, my)).join('') + `</div></div>`).join('') +
         `</div></div>`;
     }
   }
@@ -400,7 +409,7 @@ async function toggle(id){
   const s = SESS[id];
   const my = mine();
   const selected = !my.has(id);
-  if (selected && s.cap && selections(id).length >= s.cap){ toast('That one’s full, sorry!'); return; }
+  if (selected && selections(id).length >= (s.cap || DEFAULT_CAP)){ toast('That one’s full, sorry!'); return; }
 
   // picking one side of a slot un-picks anything of mine that overlaps it in the same slot
   const displaced = selected
