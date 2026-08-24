@@ -124,6 +124,8 @@
   .names{font-size:11.5px; color:var(--muted); display:none; width:100%}
   .names.open{display:block}
   .capnote{font-size:11.5px; color:var(--rust); font-weight:600}
+  .spots{font-size:11.5px; color:var(--muted); font-weight:600}
+  .spots.low{color:var(--rust)}
 
   .bar{position:fixed; left:0; right:0; bottom:0; z-index:40; background:var(--green-deep); color:#f4ecda;
     transform:translateY(110%); transition:transform .25s}
@@ -331,7 +333,7 @@ function cardHtml(s, my){
     <div class="meta">${s.who ? esc(s.who) : ''}${chips ? ' ' + chips : ''}</div>
     <div class="foot">
       <button class="count${going.length?' some':''}" data-names="${s.id}">${going.length ? going.length + ' going' : 'no one yet'}</button>
-      ${full ? '<span class="capnote">Full up, sorry!</span>' : (spotsLeft <= 3 ? `<span class="capnote">${spotsLeft} spot${spotsLeft===1?'':'s'} left</span>` : '')}
+      ${full ? '<span class="capnote">Full up, sorry!</span>' : `<span class="spots${spotsLeft <= 3 ? ' low' : ''}">${spotsLeft} spot${spotsLeft===1?'':'s'} left</span>`}
       <span class="names${openNames.has(s.id)?' open':''}" id="names-${s.id}">${namesTxt}</span>
     </div>
   </div>`;
