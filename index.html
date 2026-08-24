@@ -235,25 +235,27 @@ const ROWS = [
  {type:'info', time:'12:00–13:30', text:'Communal lunch at the Hub'},
  {type:'block', title:'Survival skills', img:'bushcraft'},
  {type:'kids', items:[{time:'13:30–16:30', text:'Kids army assemble'}]},
- {type:'slot', slot:'sat-1330', start:'13:30', end:'14:30', cols:[
+ {type:'plenary', start:'13:30', end:'13:45', title:'How to take off and land an Airbus 320 in more than three easy steps', who:'Finn'},
+ {type:'slot', slot:'sat-1330', start:'13:45', end:'14:45', cols:[
    {label:'The Hub · upstairs', items:[
-     {id:'sat-tim', start:'13:30', end:'14:30', title:'Rhyming storytelling workshop — not a poetry class. No berets-and-ennui. Just joy.', who:'Tim', where:'hub', cap:25}]},
+     {id:'sat-tim', start:'13:45', end:'14:45', title:'Rhyming storytelling workshop — not a poetry class. No berets-and-ennui. Just joy.', who:'Tim', where:'hub', cap:25}]},
    {label:'Marquee by the tents', items:[
-     {id:'sat-ben', start:'13:30', end:'14:30', title:'Ben’s Listening Circle — bring a song tied to someone who matters', who:'Ben', where:'marquee', cap:8}]}
+     {id:'sat-ben', start:'13:45', end:'14:45', title:'Ben’s Listening Circle — bring a song tied to someone who matters', who:'Ben', where:'marquee', cap:8}]}
  ]},
- {type:'slot', slot:'sat-1430', start:'14:30', end:'16:00', cols:[
+ {type:'slot', slot:'sat-1430', start:'14:45', end:'16:15', cols:[
    {label:'The Hub · upstairs', items:[
-     {id:'sat-babtiste', start:'14:30', end:'16:00', title:'Beginner watercolour workshop', who:'Babtiste', where:'hub'}]},
+     {id:'sat-babtiste', start:'14:45', end:'16:15', title:'Beginner watercolour workshop', who:'Babtiste', where:'hub'}]},
    {label:'Marquee by the tents', items:[
-     {id:'sat-yasmin', start:'14:30', end:'16:00', title:'The Breath of the Compassionate — an introduction to Sacred Geometry (drawing workshop)', who:'Yasmin', where:'marquee'}]}
+     {id:'sat-yasmin', start:'14:45', end:'16:15', title:'The Breath of the Compassionate — an introduction to Sacred Geometry (drawing workshop)', who:'Yasmin', where:'marquee'}]}
  ]},
- {type:'slot', slot:'sat-1600', start:'16:00', end:'16:30', cols:[
+ {type:'slot', slot:'sat-1600', start:'16:15', end:'16:45', cols:[
    {label:'By the water', items:[
-     {id:'sat-zoe', start:'16:00', end:'16:30', title:'Island nation life skills: water safety', who:'Zoe', venue:'By the water'}]},
+     {id:'sat-zoe', start:'16:15', end:'16:45', title:'Island nation life skills: water safety', who:'Zoe', venue:'By the water'}]},
    {label:'Marquee by the tents', items:[
-     {id:'sat-val', start:'16:00', end:'16:30', title:'Practical yoghurt-making workshop', who:'Val', where:'marquee'}]}
+     {id:'sat-val', start:'16:15', end:'16:45', title:'Practical yoghurt-making workshop', who:'Val', where:'marquee'}]}
  ]},
- {type:'info', time:'16:30 onwards', text:'Chill time, BBQ and campfires'},
+ {type:'info', time:'16:45 onwards', text:'Chill time, BBQ and campfires'},
+ {type:'plenary', start:'21:00', end:'21:30', title:'Should old acquaintance be forgot, and never brought to mind? A talk on the most sung song nobody knows the words to', who:'Jack', venue:'Next to the tents'},
 
  {type:'day', id:'sun', label:'Sunday', sub:'from 9am'},
  {type:'block', title:'A Rough Guide to the Apocalypse', img:'apocalypse'},
@@ -277,7 +279,8 @@ const ROWS = [
  {type:'info', time:'12:00–14:00', text:'Communal lunch at the Castle Inn (sit down at 12:00)'},
  {type:'block', title:'Survival of the fittest', img:'athletics'},
  {type:'plenary', start:'14:00', end:'16:00', title:'Family Olympics', who:'Hannah & Jan', venue:'Field next to the pub'},
- {type:'info', time:'16:00 onwards', text:'Chill time, BBQ and campfires'}
+ {type:'plenary', start:'16:30', end:'17:00', title:'Déanfaimid Damhsa! A Céilí for All', who:'Patricia', venue:'By the tents'},
+ {type:'info', time:'17:00 onwards', text:'Chill time, BBQ and campfires'}
 ];
 
 // flatten selectable sessions with their slot + day
