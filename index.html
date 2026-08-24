@@ -311,7 +311,7 @@ function overlaps(a,b){ return mins(a.start) < mins(b.end) && mins(b.start) < mi
 /* ---------- rendering ---------- */
 const PPM = 4;            // pixels per minute of session length
 const MAXH = 320;         // height cap so very long items stay sane
-const DEFAULT_CAP = 25;
+const DEFAULT_CAP = 20;
 function boxH(s){ return Math.min((mins(s.end) - mins(s.start)) * PPM, MAXH); }
 
 function cardHtml(s, my){
