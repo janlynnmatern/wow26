@@ -50,6 +50,14 @@
   .hero h2{font-family:Fraunces,serif; font-weight:800; font-size:26px; margin:0 0 6px}
   .hero p{margin:0; color:var(--muted); font-size:14.5px}
 
+  .notice{margin:16px 0 2px; background:var(--card); border:1px solid var(--line);
+    border-left:5px solid var(--rust); border-radius:12px; padding:13px 15px;
+    box-shadow:0 2px 8px rgba(60,50,20,.08)}
+  .notice h3{font-family:Fraunces,serif; font-weight:800; font-size:15px; margin:0 0 5px; color:var(--rust)}
+  .notice p{margin:0 0 6px; font-size:13.5px; line-height:1.5}
+  .notice p:last-child{margin-bottom:0}
+  .notice b{color:var(--green-deep)}
+
   .dayhead{display:flex; align-items:baseline; gap:10px; margin:34px 0 4px; scroll-margin-top:70px}
   .dayhead h2{font-family:Fraunces,serif; font-weight:900; font-size:30px; margin:0; color:var(--green-deep)}
   .dayhead span{color:var(--muted); font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase}
@@ -178,6 +186,14 @@
     <p>Most of the weekend we're all together — nothing to do there. But where two sessions run at the
     same time, tap the one you'll go to, so we can size the rooms. It saves instantly; tap again to change your mind.</p>
   </div>
+
+  <div class="notice">
+    <h3>Programme update</h3>
+    <p>We have had to re-shuffle the programme a bit. <b>Harry, Joel, Mario and Val's sessions are now
+    plenaries.</b> <b>Hannah's <i>Life on the Edge of the World</i> has moved to Sunday, 10:30 in the
+    marquee.</b> We've carried over your previous choices where possible but please go through again and
+    make sure have picked a session for each slot.</p>
+  </div>
   <div id="orgbox"></div>
   <div id="app"></div>
 </div>
@@ -205,6 +221,14 @@ const IMGS = {
 };
 const DAYS = {fri:"Friday", sat:"Saturday", sun:"Sunday"};
 
+// sessions that used to need a choice and no longer do (kept so old picks still read sensibly)
+const RETIRED = {
+  'sat-harry':  {day:'sat', start:'10:00', title:'How (and why) to make a video game', note:'now a plenary'},
+  'sat-joel':   {day:'sat', start:'11:00', title:'A Brief History of the Hell\u2019s Angels', note:'now a plenary'},
+  'sat-mario':  {day:'sat', start:'11:30', title:'Fun facts about the world you probably didn\u2019t know', note:'now a plenary'},
+  'sat-val':    {day:'sat', start:'16:15', title:'Practical yoghurt-making workshop', note:'now a plenary'}
+};
+
 // where: 'hub' | 'marquee' | custom venue string via venue
 const ROWS = [
  {type:'day', id:'fri', label:'Friday', sub:'from 4pm'},
@@ -218,20 +242,9 @@ const ROWS = [
  {type:'kids', items:[{time:'09:00–11:30', text:'Treasure hunt'}]},
  {type:'plenary', start:'09:00', end:'09:30', title:'Why Do You Still Go To Those Meetings? A (very) personal account of 12-step recovery', who:'Julian'},
  {type:'plenary', start:'09:30', end:'10:00', title:'The Changing Face of Childbirth: 10,000 Years of Human Experience', who:'Jane'},
- {type:'slot', slot:'sat-1000', start:'10:00', end:'11:00', cols:[
-   {label:'The Hub · upstairs', items:[
-     {id:'sat-harry', start:'10:00', end:'11:00', title:'How (and why) to make a video game', who:'Harry', where:'hub'}]},
-   {label:'Marquee by the tents', items:[
-     {id:'sat-hannah', start:'10:00', end:'10:30', title:'Life on the Edge of the World', who:'Hannah', where:'marquee'},
-     {id:'sat-joel', start:'10:30', end:'11:00', title:'A Brief History of the Hell’s Angels: outlaws, motorcycles and global domination', who:'Joel', where:'marquee'}]}
- ]},
- {type:'slot', slot:'sat-1100', start:'11:00', end:'11:30', cols:[
-   {label:'The Hub · upstairs', items:[
-     {id:'sat-mario', start:'11:00', end:'11:30', title:'Fun facts about the world you probably didn’t know', who:'Mario', where:'hub'}]},
-   {label:'Marquee by the tents', items:[
-     {id:'sat-brett', start:'11:00', end:'11:30', title:'Mountains of the Mind', who:'Brett', where:'marquee'}]}
- ]},
- {type:'info', time:'11:30–12:00', text:'Buffer time'},
+ {type:'plenary', start:'10:00', end:'11:00', title:'How (and why) to make a video game', who:'Harry'},
+ {type:'plenary', start:'11:00', end:'11:30', title:'A Brief History of the Hell’s Angels: outlaws, motorcycles and global domination', who:'Joel'},
+ {type:'plenary', start:'11:30', end:'12:00', title:'Fun facts about the world you probably didn’t know', who:'Mario'},
  {type:'info', time:'12:00–13:30', text:'Communal lunch at the Hub'},
  {type:'block', title:'Survival skills', img:'bushcraft'},
  {type:'kids', items:[{time:'13:30–16:30', text:'Kids army assemble'}]},
@@ -248,12 +261,7 @@ const ROWS = [
    {label:'Marquee by the tents', items:[
      {id:'sat-yasmin', start:'14:45', end:'16:15', title:'The Breath of the Compassionate — an introduction to Sacred Geometry (drawing workshop)', who:'Yasmin', where:'marquee'}]}
  ]},
- {type:'slot', slot:'sat-1600', start:'16:15', end:'16:45', cols:[
-   {label:'By the water', items:[
-     {id:'sat-zoe', start:'16:15', end:'16:45', title:'Island nation life skills: water safety', who:'Zoe', venue:'By the water'}]},
-   {label:'Marquee by the tents', items:[
-     {id:'sat-val', start:'16:15', end:'16:45', title:'Practical yoghurt-making workshop', who:'Val', where:'marquee'}]}
- ]},
+ {type:'plenary', start:'16:15', end:'16:45', title:'Practical yoghurt-making workshop', who:'Val', venue:'Next to the tents'},
  {type:'info', time:'16:45 onwards', text:'Chill time, BBQ and campfires'},
  {type:'plenary', start:'21:00', end:'21:30', title:'Should old acquaintance be forgot, and never brought to mind? A talk on the most sung song nobody knows the words to', who:'Jack', venue:'Next to the tents'},
 
@@ -272,7 +280,7 @@ const ROWS = [
    {label:'The Hub · upstairs', items:[
      {id:'sun-lottie', start:'10:30', end:'11:30', title:'Why trying to get famous is actually a great idea — how LinkedIn changed my life and why being incredibly cringe is a great plan', who:'Lottie', where:'hub'}]},
    {label:'Marquee by the tents', items:[
-     {id:'sun-ush', start:'10:30', end:'11:00', title:'From AI to Z: how the modern world is impacting our mental health', who:'Ush', where:'marquee'},
+     {id:'sun-hannah', start:'10:30', end:'11:00', title:'Life on the Edge of the World', who:'Hannah', where:'marquee'},
      {id:'sun-grainne', start:'11:00', end:'11:30', title:'Sensory regulation — strategies that can help us feel more alert', who:'Gráinne', where:'marquee'}]}
  ]},
  {type:'info', time:'11:30–12:00', text:'Walk to the pub'},
@@ -388,7 +396,9 @@ function renderOrg(){
     return `<tr><td>${DAYS[s.day]} ${s.start}</td><td>${esc(s.title.slice(0,60))}</td><td class="num"><b>${g.length}</b></td><td>${g.map(x=>esc(x.name)).join(', ')}</td></tr>`;
   }).join('');
   let t2 = people.map(p => {
-    const picks = rows.filter(r => r.name.trim() === p).map(r => { const s = SESS[r.session_id]; return s ? s.title.slice(0,30) : r.session_id; });
+    const picks = rows.filter(r => r.name.trim() === p).map(r => {
+      const s = SESS[r.session_id]; if (s) return s.title.slice(0,30);
+      const x = RETIRED[r.session_id]; return x ? x.title.slice(0,30) + ' (' + x.note + ')' : r.session_id; });
     return `<tr><td><b>${esc(p)}</b> (${picks.length})</td><td>${picks.map(esc).join(' · ')}</td></tr>`;
   }).join('');
   $('#orgbox').innerHTML = `<div class="org"><h3>Organiser view</h3>
@@ -398,7 +408,7 @@ function renderOrg(){
     <button id="csv">Copy as CSV</button></div>`;
   $('#csv').onclick = () => {
     const lines = [['name','day','time','session'].join(',')];
-    for (const r of rows){ const s = SESS[r.session_id] || {};
+    for (const r of rows){ const s = SESS[r.session_id] || RETIRED[r.session_id] || {};
       lines.push([r.name, DAYS[s.day]||'', s.start||'', (s.title||r.session_id)].map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')); }
     navigator.clipboard.writeText(lines.join('\n')).then(()=>toast('Copied!'));
   };
